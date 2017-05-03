@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="wai.clas.manage.ui.ClassDetailActivity">
+
+    <net.tsz.afinal.view.TitleBar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:center_tv="个人嘿嘿嘿"
+        app:no_bottom_line="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/asl_fb"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/black_background" />
+
+    <TextView
+        android:id="@+id/title_num_tv"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/titlebar"
+        android:background="#666"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="当前共"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <ListView
+        android:id="@+id/main_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_num_tv" />
+</RelativeLayout>

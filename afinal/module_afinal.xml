@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_afinal" default="compile.module.afinal">
+  <dirname property="module.afinal.basedir" file="${ant.file.module_afinal}"/>
+  
+  <property name="module.jdk.home.afinal" value="${jdk.home.android_api_22_platform}"/>
+  <property name="module.jdk.bin.afinal" value="${jdk.bin.android_api_22_platform}"/>
+  <property name="module.jdk.classpath.afinal" value="jdk.classpath.android_api_22_platform"/>
+  
+  <property name="compiler.args.afinal" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="afinal.output.dir" value="${module.afinal.basedir}/build/intermediates/classes/debug"/>
+  <property name="afinal.testoutput.dir" value="${module.afinal.basedir}/build/intermediates/classes/test/debug"/>
+  
+  <path id="afinal.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="afinal.module.production.classpath">
+    <path refid="${module.jdk.classpath.afinal}"/>
+  </path>
+  
+  <path id="afinal.runtime.production.module.classpath">
+    <pathelement location="${afinal.output.dir}"/>
+  </path>
+  
+  <path id="afinal.module.classpath">
+    <path refid="${module.jdk.classpath.afinal}"/>
+    <pathelement location="${afinal.output.dir}"/>
+  </path>
+  
+  <path id="afinal.runtime.module.classpath">
+    <pathelement location="${afinal.testoutput.dir}"/>
+    <pathelement location="${afinal.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.afinal">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.afinal">
+    <patternset refid="excluded.from.module.afinal"/>
+  </patternset>
+  
+  <path id="afinal.module.sourcepath">
+    <dirset dir="${module.afinal.basedir}">
+      <include name="build/generated/source/r/debug"/>
+      <include name="build/generated/source/aidl/debug"/>
+      <include name="build/generated/source/buildConfig/debug"/>
+      <include name="build/generated/source/rs/debug"/>
+      <include name="build/generated/res/rs/debug"/>
+      <include name="build/generated/res/resValues/debug"/>
+      <include name="src/main/res"/>
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="afinal.module.test.sourcepath">
+    <dirset dir="${module.afinal.basedir}">
+      <include name="build/generated/source/r/androidTest/debug"/>
+      <include name="build/generated/source/aidl/androidTest/debug"/>
+      <include name="build/generated/source/buildConfig/androidTest/debug"/>
+      <include name="build/generated/source/rs/androidTest/debug"/>
+      <include name="build/generated/res/rs/androidTest/debug"/>
+      <include name="build/generated/res/resValues/androidTest/debug"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.afinal" depends="compile.module.afinal.production,compile.module.afinal.tests" description="Compile module afinal"/>
+  
+  <target name="compile.module.afinal.production" depends="register.custom.compilers" description="Compile module afinal; production classes">
+    <mkdir dir="${afinal.output.dir}"/>
+    <javac2 destdir="${afinal.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.afinal}/javac">
+      <compilerarg line="${compiler.args.afinal}"/>
+      <bootclasspath refid="afinal.module.bootclasspath"/>
+      <classpath refid="afinal.module.production.classpath"/>
+      <src refid="afinal.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.afinal"/>
+    </javac2>
+    
+    <copy todir="${afinal.output.dir}">
+      <fileset dir="${module.afinal.basedir}/build/generated/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/res/resValues/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/src/main/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.afinal.tests" depends="register.custom.compilers,compile.module.afinal.production" description="compile module afinal; test classes" unless="skip.tests">
+    <mkdir dir="${afinal.testoutput.dir}"/>
+    <javac2 destdir="${afinal.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.afinal}/javac">
+      <compilerarg line="${compiler.args.afinal}"/>
+      <bootclasspath refid="afinal.module.bootclasspath"/>
+      <classpath refid="afinal.module.classpath"/>
+      <src refid="afinal.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.afinal"/>
+    </javac2>
+    
+    <copy todir="${afinal.testoutput.dir}">
+      <fileset dir="${module.afinal.basedir}/build/generated/source/r/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/source/aidl/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/source/buildConfig/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/source/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/res/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.afinal.basedir}/build/generated/res/resValues/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.afinal" description="cleanup module">
+    <delete dir="${afinal.output.dir}"/>
+    <delete dir="${afinal.testoutput.dir}"/>
+  </target>
+</project>
