@@ -25,11 +25,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name="me.iwf.photopicker.PhotoPagerActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.RegActivity" />
         <activity android:name=".ui.ClassDetailActivity" />
         <activity android:name=".ui.AddQuestionActivity" />
-        <activity android:name=".ui.QuestionActivity"></activity>
+        <activity android:name=".ui.QuestionActivity" />
+        <activity android:name=".ui.UserCenterActivity"></activity>
     </application>
 
 </manifest>

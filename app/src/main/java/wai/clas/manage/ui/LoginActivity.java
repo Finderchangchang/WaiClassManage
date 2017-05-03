@@ -15,6 +15,7 @@ import cn.bmob.v3.listener.LogInListener;
 import wai.clas.manage.BaseActivity;
 import wai.clas.manage.R;
 import wai.clas.manage.method.Utils;
+import wai.clas.manage.model.key;
 
 public class LoginActivity extends BaseActivity {
     @Bind(R.id.user_name_et)
@@ -42,11 +43,12 @@ public class LoginActivity extends BaseActivity {
             } else if (TextUtils.isEmpty(pwd)) {
                 ToastShort("密码不能为空");
             } else {
-                BmobUser.loginByAccount(name, pwd, new LogInListener<Object>() {
+                BmobUser.loginByAccount(name, pwd, new LogInListener<BmobUser>() {
                     @Override
-                    public void done(Object o, BmobException e) {
+                    public void done(BmobUser o, BmobException e) {
                         if (e == null) {//登录成功
-                            Utils.IntentPost(LoginActivity.class);
+                            finish();
+                            Utils.putCache(key.KEY_class_user_id, o.getObjectId());
                         }
                     }
                 });

@@ -49,7 +49,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/no_img" />
 
         <ImageView
             android:id="@+id/iv2"
@@ -57,7 +57,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/no_img"
             android:visibility="gone" />
     </LinearLayout>
 

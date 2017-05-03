@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import wai.clas.manage.R;
+
 /**
  * Created by liuliu on 2015/11/16   16:29
  *
@@ -102,13 +104,16 @@ public class CommonViewHolder {
         view.setText(text + "");
         return this;
     }
+
     public CommonViewHolder setGliImage(int viewId, String url) {
         ImageView view = getView(viewId);
         Glide.with(mContext)
                 .load(url)
+                .error(R.mipmap.no_img)
                 .into(view);
         return this;
     }
+
     public CommonViewHolder setBGText(int viewId, String text) {
         Button view = getView(viewId);
         view.setText(text + "");

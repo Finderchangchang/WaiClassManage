@@ -1,6 +1,7 @@
 package wai.clas.manage.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -21,6 +22,7 @@ import wai.clas.manage.BaseActivity;
 import wai.clas.manage.R;
 import wai.clas.manage.method.Utils;
 import wai.clas.manage.model.TotalClass;
+import wai.clas.manage.model.key;
 
 public class MainActivity extends BaseActivity {
     public static MainActivity admin;
@@ -68,5 +70,13 @@ public class MainActivity extends BaseActivity {
         mainGv.setOnItemClickListener((parent, view, position, id) ->//跳转到当前课程管理页面
                 Utils.IntentPost(ClassDetailActivity.class, intent -> intent.putExtra("class", list.get(position)))
         );
+        goUserTv.setOnClickListener(view -> {
+            String user_id = Utils.getCache(key.KEY_class_user_id);
+            if (TextUtils.isEmpty(user_id)) {
+                Utils.IntentPost(LoginActivity.class);
+            } else {
+                Utils.IntentPost(UserCenterActivity.class);
+            }
+        });
     }
 }
