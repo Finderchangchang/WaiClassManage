@@ -50,6 +50,9 @@ public class ClassDetailActivity extends BaseActivity {
     @Override
     public void initViews() {
         toolbar.setLeftClick(() -> finish());
+        toolbar.setRightClick(()->{
+
+        });
         adapter = new CommonAdapter<Question>(this, list, R.layout.item_question) {
             @Override
             public void convert(CommonViewHolder holder, Question question, int position) {

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:center_tv="个人嘿嘿嘿"
-        app:no_bottom_line="true" />
+        app:no_bottom_line="true"
+        app:right_tv="收藏"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/main_srl"

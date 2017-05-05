@@ -1,17 +1,11 @@
 package wai.clas.manage.ui;
 
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import net.tsz.afinal.view.TitleBar;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;

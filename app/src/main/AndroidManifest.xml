@@ -34,7 +34,8 @@
         <activity android:name=".ui.ClassDetailActivity" />
         <activity android:name=".ui.AddQuestionActivity" />
         <activity android:name=".ui.QuestionActivity" />
-        <activity android:name=".ui.UserCenterActivity"></activity>
+        <activity android:name=".ui.UserCenterActivity" />
+        <activity android:name=".ui.AskManageActivity"></activity>
     </application>
 
 </manifest>

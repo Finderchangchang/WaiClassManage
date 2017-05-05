@@ -47,10 +47,32 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/exit_btn"
+        android:id="@+id/ask_manage_tv"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="提问管理"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sc_manage_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="收藏管理"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/exit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
         android:background="@android:color/white"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
