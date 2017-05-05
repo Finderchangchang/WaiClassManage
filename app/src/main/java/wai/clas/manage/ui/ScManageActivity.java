@@ -2,6 +2,7 @@ package wai.clas.manage.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ListView;
 
 import net.tsz.afinal.view.TitleBar;
@@ -19,54 +20,50 @@ import wai.clas.manage.R;
 import wai.clas.manage.method.CommonAdapter;
 import wai.clas.manage.method.CommonViewHolder;
 import wai.clas.manage.method.Utils;
-import wai.clas.manage.model.Question;
+import wai.clas.manage.model.SCModel;
+import wai.clas.manage.model.SCModel;
 import wai.clas.manage.model.UserModel;
 
 /**
- * 提问管理
+ * 收藏管理
  */
-public class AskManageActivity extends BaseActivity {
-
+public class ScManageActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     TitleBar toolbar;
     @Bind(R.id.main_lv)
     ListView mainLv;
-    List<Question> orderModels;
-    CommonAdapter<Question> pj_adapter;
+    List<SCModel> orderModels;
+    CommonAdapter<SCModel> pj_adapter;
 
     @Override
     public int setLayout() {
-        return R.layout.activity_ask_manage;
+        return R.layout.activity_sc_manage;
     }
 
     @Override
     public void initViews() {
         toolbar.setLeftClick(() -> finish());
         orderModels = new ArrayList<>();
-        pj_adapter = new CommonAdapter<Question>(MainActivity.admin, orderModels, R.layout.item_question) {
+        pj_adapter = new CommonAdapter<SCModel>(MainActivity.admin, orderModels, R.layout.item_pj) {
             @Override
-            public void convert(CommonViewHolder holder, Question question, int position) {
-                holder.setGliImage(R.id.user_iv, question.getImg1());
-                holder.setText(R.id.title_tv, question.getTitle());
-                if (!TextUtils.isEmpty(question.getContent())) {
-                    if (question.getContent().length() > 70) {
-                        holder.setText(R.id.content_tv, question.getContent().substring(0, 70) + "...");
-                    } else {
-                        holder.setText(R.id.content_tv, question.getContent());
-                    }
-                }
+            public void convert(CommonViewHolder holder, SCModel SCModel, int position) {
+//                holder.setGliImage(R.id.img_iv, SCModel.getSubj().getTitle());
+                holder.setText(R.id.name_tv, SCModel.getSubj().getTitle());
+                holder.setOnClickListener(R.id.delete_btn, view -> {
+
+                });
             }
         };
         mainLv.setAdapter(pj_adapter);
-        BmobQuery<Question> bmobQuery = new BmobQuery<>();
+        BmobQuery<SCModel> bmobQuery = new BmobQuery<>();
         UserModel model = new UserModel();
         model.setObjectId(Utils.getCache("user_id"));
         bmobQuery.include("user");
         bmobQuery.order("-createdAt");
         bmobQuery.addWhereEqualTo("user", model);//当前账户
-        bmobQuery.findObjects(new FindListener<Question>() {
+        bmobQuery.findObjects(new FindListener<SCModel>() {
             @Override
-            public void done(List<Question> list, BmobException e) {
+            public void done(List<SCModel> list, BmobException e) {
                 if (e == null) {
                     orderModels = list;
                     pj_adapter.refresh(orderModels);
@@ -74,7 +71,7 @@ public class AskManageActivity extends BaseActivity {
             }
         });
         mainLv.setOnItemClickListener((adapterView, view, i, l) -> {
-            Utils.IntentPost(QuestionActivity.class, intent -> intent.putExtra("id", orderModels.get(i)));
+            Utils.IntentPost(ClassDetailActivity.class, intent -> intent.putExtra("id", orderModels.get(i)));
         });
     }
 

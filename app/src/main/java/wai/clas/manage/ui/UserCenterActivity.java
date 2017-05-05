@@ -1,11 +1,16 @@
 package wai.clas.manage.ui;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import net.tsz.afinal.view.TitleBar;
+
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
@@ -26,6 +31,12 @@ public class UserCenterActivity extends BaseActivity {
     @Bind(R.id.exit_btn)
     TextView exitBtn;
     String user_id;
+    @Bind(R.id.top_ll)
+    LinearLayout topLl;
+    @Bind(R.id.ask_manage_tv)
+    TextView askManageTv;
+    @Bind(R.id.sc_manage_tv)
+    TextView scManageTv;
 
     @Override
     public int setLayout() {
@@ -34,6 +45,7 @@ public class UserCenterActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        askManageTv.setOnClickListener(view -> Utils.IntentPost(AskManageActivity.class));
         toolbar.setLeftClick(() -> finish());
         user_id = Utils.getCache(key.KEY_class_user_id);
         exitBtn.setOnClickListener(view -> {

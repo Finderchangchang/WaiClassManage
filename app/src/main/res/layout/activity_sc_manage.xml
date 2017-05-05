@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:center_tv="问题管理" />
+        app:center_tv="收藏管理" />
 
     <ListView
         android:id="@+id/main_lv"
