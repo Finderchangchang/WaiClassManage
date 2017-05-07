@@ -9,10 +9,14 @@ import android.widget.TextView;
 
 import net.tsz.afinal.view.TitleBar;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.UpdateListener;
 import wai.clas.manage.BaseActivity;
@@ -46,12 +50,23 @@ public class UserCenterActivity extends BaseActivity {
     @Override
     public void initViews() {
         askManageTv.setOnClickListener(view -> Utils.IntentPost(AskManageActivity.class));
+        scManageTv.setOnClickListener(view -> Utils.IntentPost(ScManageActivity.class));
         toolbar.setLeftClick(() -> finish());
         user_id = Utils.getCache(key.KEY_class_user_id);
         exitBtn.setOnClickListener(view -> {
             finish();
             MainActivity.admin.finish();
             Utils.putCache(key.KEY_class_user_id, "");
+        });
+        BmobQuery<UserModel> query = new BmobQuery();
+        query.addWhereEqualTo("objectId", Utils.getCache(key.KEY_class_user_id));
+        query.findObjects(new FindListener<UserModel>() {
+            @Override
+            public void done(List<UserModel> list, BmobException e) {
+                if (e == null) {
+                    nameTv.setText(list.get(0).getName());
+                }
+            }
         });
         changeNameBtn.setOnClickListener(view -> {
             String name = nameTv.getText().toString().trim();
@@ -61,7 +76,7 @@ public class UserCenterActivity extends BaseActivity {
                 userModel.setName(name);
                 BmobUser user = BmobUser.getCurrentUser();
                 if (user == null) {
-                    BmobUser.loginByAccount(Utils.getCache("user_tel"), Utils.getCache("user_pwd"), new LogInListener<Object>() {
+                    BmobUser.loginByAccount(Utils.getCache(key.KEY_class_tel), Utils.getCache(key.KEY_class_pwd), new LogInListener<Object>() {
                         @Override
                         public void done(Object o, BmobException e) {
                             if (e == null) {

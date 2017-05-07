@@ -3,6 +3,7 @@
     android:id="@+id/tag_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
     android:padding="10dp">
 

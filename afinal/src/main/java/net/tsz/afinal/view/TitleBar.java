@@ -126,6 +126,15 @@ public class TitleBar extends LinearLayout {
         center_tv.setText(name);
     }
 
+    public void setRighttv(String name) {
+        right_tv.setText(name);
+        str_right_tv = name;
+    }
+
+    public String getRight_str() {
+        return str_right_tv;
+    }
+
     /**
      * 设置右侧文字显示隐藏
      *
@@ -162,6 +171,7 @@ public class TitleBar extends LinearLayout {
     public void setRightClick(RightClick rightClick) {
         this.rightClick = rightClick;
     }
+
 
     public String getCenter_str() {
         return center_str;

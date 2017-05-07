@@ -119,6 +119,9 @@ public class QuestionActivity extends BaseActivity {
                     UserModel user = new UserModel();
                     user.setObjectId(user_id);
                     askModel.setUser(user);
+                    user = new UserModel();
+                    user.setObjectId(Utils.getCache(key.KEY_class_user_id));
+                    askModel.setQ_user(user);
                     askModel.setQuestion(model);
                     askModel.save(new SaveListener<String>() {
                         @Override

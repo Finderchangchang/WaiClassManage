@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.v3.BmobUser;
@@ -48,7 +51,11 @@ public class LoginActivity extends BaseActivity {
                     public void done(BmobUser o, BmobException e) {
                         if (e == null) {//登录成功
                             finish();
-                            Utils.putCache(key.KEY_class_user_id, o.getObjectId());
+                            Map<String, String> map = new HashMap<String, String>();
+                            map.put(key.KEY_class_user_id, o.getObjectId());
+                            map.put(key.KEY_class_tel, name);
+                            map.put(key.KEY_class_pwd, pwd);
+                            Utils.putCache(map);
                         }
                     }
                 });

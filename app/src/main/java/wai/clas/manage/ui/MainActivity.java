@@ -20,6 +20,8 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import wai.clas.manage.BaseActivity;
 import wai.clas.manage.R;
+import wai.clas.manage.method.CommonAdapter;
+import wai.clas.manage.method.CommonViewHolder;
 import wai.clas.manage.method.Utils;
 import wai.clas.manage.model.TotalClass;
 import wai.clas.manage.model.key;
@@ -30,9 +32,9 @@ public class MainActivity extends BaseActivity {
     TextView goUserTv;
     @Bind(R.id.main_gv)
     GridView mainGv;
-    private List<Map<String, Object>> data_list;
-    private SimpleAdapter sim_adapter;
+    private List<TotalClass> total_list;
     List<TotalClass> list;
+    CommonAdapter<TotalClass> adapter;
 
     @Override
     public int setLayout() {
@@ -46,27 +48,25 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initEvents() {
-        data_list = new ArrayList<>();
+        total_list = new ArrayList<>();
         BmobQuery<TotalClass> query = new BmobQuery<>();
         query.findObjects(new FindListener<TotalClass>() {
             @Override
             public void done(List<TotalClass> lists, BmobException e) {
                 if (e == null) {
                     list = lists;
-                    for (TotalClass totalClass : lists) {
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("image", R.mipmap.ic_launcher);
-                        map.put("text", totalClass.getTitle());
-                        data_list.add(map);
-                        sim_adapter.notifyDataSetChanged();
-                    }
+                    adapter.refresh(lists);
                 }
             }
         });
-        String[] from = {"image", "text"};
-        int[] to = {R.id.image, R.id.text};
-        sim_adapter = new SimpleAdapter(this, data_list, R.layout.item, from, to);
-        mainGv.setAdapter(sim_adapter);
+        adapter = new CommonAdapter<TotalClass>(this, total_list, R.layout.item) {
+            @Override
+            public void convert(CommonViewHolder holder, TotalClass totalClass, int position) {
+                holder.setGliImage(R.id.image, totalClass.getUrl());
+                holder.setText(R.id.text, totalClass.getTitle());
+            }
+        };
+        mainGv.setAdapter(adapter);
         mainGv.setOnItemClickListener((parent, view, position, id) ->//跳转到当前课程管理页面
                 Utils.IntentPost(ClassDetailActivity.class, intent -> intent.putExtra("class", list.get(position)))
         );

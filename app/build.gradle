@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
     defaultConfig {
-        applicationId "wai.school"
+        applicationId "wai.clas.manage"
         minSdkVersion 15
         targetSdkVersion 24
     }
@@ -40,5 +40,4 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.android.support:design:25.3.1'
     compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

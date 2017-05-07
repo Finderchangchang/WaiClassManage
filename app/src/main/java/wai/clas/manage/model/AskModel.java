@@ -10,8 +10,17 @@ import cn.bmob.v3.BmobUser;
 
 public class AskModel extends BmobObject {
     UserModel user;
+    UserModel q_user;
     Question question;
     String content;
+
+    public UserModel getQ_user() {
+        return q_user;
+    }
+
+    public void setQ_user(UserModel q_user) {
+        this.q_user = q_user;
+    }
 
     public UserModel getUser() {
         return user;

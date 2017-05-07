@@ -10,6 +10,15 @@ import cn.bmob.v3.BmobObject;
 
 public class TotalClass extends BmobObject implements Serializable {
     String title;
+    String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getTitle() {
         return title;
