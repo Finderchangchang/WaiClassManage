@@ -6,14 +6,6 @@
     android:background="@color/main_bg"
     android:orientation="vertical">
 
-    <net.tsz.afinal.view.TitleBar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:center_tv="个人中心"
-        app:no_bottom_line="true" />
-
     <LinearLayout
         android:id="@+id/top_ll"
         android:layout_width="match_parent"
@@ -25,6 +17,7 @@
         android:paddingTop="10dp">
 
         <TextView
+            android:id="@+id/no_login_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"
@@ -54,17 +47,6 @@
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:text="提问管理"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/sc_manage_tv"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="1dp"
-        android:background="@android:color/white"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="收藏管理"
         android:textSize="18sp" />
 
     <TextView

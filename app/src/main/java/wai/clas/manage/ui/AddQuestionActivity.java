@@ -52,7 +52,7 @@ public class AddQuestionActivity extends BaseActivity {
     }
 
     Map<Integer, String> map = new HashMap<>();
-    int position = 0;
+    int position = 0;//用来控制当前添加的第几张图片
     TotalClass model;
 
     @Override
@@ -62,14 +62,14 @@ public class AddQuestionActivity extends BaseActivity {
         button.setOnClickListener(view -> {
             String title = titleTv.getText().toString().trim();
             String content = contentEt.getText().toString().trim();
-            if (TextUtils.isEmpty(title)) {
+            if (TextUtils.isEmpty(title)) {//标题非空判断
                 ToastShort("问题的内容不能为空");
-            } else {
+            } else {//执行问题添加操作
                 Question question = new Question();
                 question.setTitle(title);
                 question.setContent(content);
-                question.setImg1(map.get(1));
-                question.setImg2(map.get(2));
+                question.setImg1(map.get(0));
+                question.setImg2(map.get(1));
                 question.setClas(model);
                 question.save(new SaveListener<String>() {
                     @Override
@@ -85,7 +85,7 @@ public class AddQuestionActivity extends BaseActivity {
                 });
             }
         });
-        iv1.setOnClickListener(view1 -> {
+        iv1.setOnClickListener(view1 -> {//添加第一张图片--调用选择相机操作
             PhotoPicker.builder()
                     .setPhotoCount(1)
                     .setShowCamera(true)
@@ -94,7 +94,7 @@ public class AddQuestionActivity extends BaseActivity {
                     .start(this, PhotoPicker.REQUEST_CODE);
             position = 0;
         });
-        iv2.setOnClickListener(view1 -> {
+        iv2.setOnClickListener(view1 -> {//添加第二张图片--调用选择相机操作
             PhotoPicker.builder()
                     .setPhotoCount(1)
                     .setShowCamera(true)
@@ -109,24 +109,23 @@ public class AddQuestionActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
-            if (data != null) {
-                ArrayList<String> photos =
-                        data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+            if (data != null) {//图片拍照或者选择后返回的图片数据
+                ArrayList<String> photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
                 final String[] filePaths = new String[photos.size()];
                 for (int i = 0; i < photos.size(); i++) {
                     filePaths[i] = photos.get(i);
-                }
+                }//将获得的图片数据上传到bmob数据库
                 BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
                     @Override
                     public void onSuccess(List<BmobFile> files, List<String> urls) {
                         if (urls.size() == filePaths.length) {//如果数量相等，则代表文件全部上传完成
-                            map.put(position, urls.get(0));
+                            map.put(position, urls.get(0));//将返回的网络地址存储在map中，最终保存在数据库中
                             if (map.size() == 2 || position == 0) {
                                 iv2.setVisibility(View.VISIBLE);
                             } else {
                                 iv2.setVisibility(View.GONE);
                             }
-                            switch (position) {
+                            switch (position) {//添加成功以后在页面进行显示操作
                                 case 0:
                                     iv1.setImageBitmap(Utils.getBitmapByFile(filePaths[0]));
                                     break;

@@ -43,7 +43,7 @@ public class AskManageActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        toolbar.setLeftClick(() -> finish());
+        toolbar.setLeftClick(() -> finish());//点击左侧箭头进行关闭操作
         orderModels = new ArrayList<>();
         pj_adapter = new CommonAdapter<AskModel>(this, orderModels, R.layout.item_question) {
             @Override
@@ -67,7 +67,7 @@ public class AskManageActivity extends BaseActivity {
         BmobQuery<AskModel> bmobQuery = new BmobQuery<>();
         bmobQuery.include("user,question");
         bmobQuery.order("-createdAt");
-        UserModel model = new UserModel();
+        UserModel model = new UserModel();//查询出当前账户的所有提问并按创建时间倒序排列
         model.setObjectId(Utils.getCache(key.KEY_class_user_id));
         bmobQuery.addWhereEqualTo("q_user", model);//当前账户
         bmobQuery.findObjects(new FindListener<AskModel>() {
@@ -75,11 +75,11 @@ public class AskManageActivity extends BaseActivity {
             public void done(List<AskModel> list, BmobException e) {
                 if (e == null) {
                     orderModels = list;
-                    pj_adapter.refresh(orderModels);
+                    pj_adapter.refresh(orderModels);//刷新数据
                 }
             }
         });
-        mainLv.setOnItemClickListener((adapterView, view, i, l) -> {
+        mainLv.setOnItemClickListener((adapterView, view, i, l) -> {//点击问题，跳转到问题详情
             Utils.IntentPost(QuestionActivity.class, intent -> intent.putExtra("id", orderModels.get(i)));
         });
     }

@@ -17,6 +17,9 @@ import wai.clas.manage.BaseActivity;
 import wai.clas.manage.R;
 import wai.clas.manage.method.Utils;
 
+/**
+ * 注册页面
+ */
 public class RegActivity extends BaseActivity {
     @Bind(R.id.user_name_et)
     EditText userNameEt;
@@ -44,7 +47,7 @@ public class RegActivity extends BaseActivity {
                 user.setUsername(name);
                 user.setPassword(pwd);
                 user.signUp(new SaveListener<Object>() {
-                    @Override
+                    @Override//执行注册操作
                     public void done(Object o, BmobException e) {
                         if (e == null) {
                             Intent intent = new Intent();

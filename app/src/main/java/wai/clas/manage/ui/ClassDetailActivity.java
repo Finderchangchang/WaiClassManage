@@ -38,6 +38,9 @@ import wai.clas.manage.model.TotalClass;
 import wai.clas.manage.model.UserModel;
 import wai.clas.manage.model.key;
 
+/**
+ * 课程详情管理
+ */
 public class ClassDetailActivity extends BaseActivity {
     TotalClass class_model;
     @Bind(R.id.toolbar)
@@ -72,7 +75,7 @@ public class ClassDetailActivity extends BaseActivity {
         query.addWhereEqualTo("subj", class_model);
         UserModel userModel = new UserModel();
         userModel.setObjectId(Utils.getCache(key.KEY_class_user_id));
-        query.addWhereEqualTo("user", userModel);
+        query.addWhereEqualTo("user", userModel);//判断当前账户是否收藏当前的标签
         query.findObjects(new FindListener<SCModel>() {
             @Override
             public void done(List<SCModel> list, BmobException e) {
@@ -87,7 +90,7 @@ public class ClassDetailActivity extends BaseActivity {
                 }
             }
         });
-        toolbar.setRightClick(() -> {
+        toolbar.setRightClick(() -> {//点击收藏操作
             user_id = Utils.getCache(key.KEY_class_user_id);
             if (TextUtils.isEmpty(user_id)) {
                 Utils.IntentPost(LoginActivity.class);
@@ -101,7 +104,7 @@ public class ClassDetailActivity extends BaseActivity {
                     scModel.setSubj(class_model);
                     scModel.setUser(userModel);
                     scModel.save(new SaveListener<String>() {
-                        @Override
+                        @Override//执行收藏操作
                         public void done(String s, BmobException e) {
                             if (e == null) {
                                 ToastShort("收藏成功");
@@ -115,10 +118,10 @@ public class ClassDetailActivity extends BaseActivity {
                 }
             }
         });
-        aslFb.setOnClickListener(view -> {
-            if (TextUtils.isEmpty(user_id)) {
+        aslFb.setOnClickListener(view -> {//点击跳转到添加问题页面
+            if (TextUtils.isEmpty(user_id)) {//当前未登录跳转到登录页面
                 Utils.IntentPost(LoginActivity.class);
-            } else {
+            } else {//已经登录的跳转到添加问题页面
                 Intent intent = new Intent(ClassDetailActivity.this, AddQuestionActivity.class);
                 intent.putExtra("class", class_model);
                 startActivityForResult(intent, 0);
@@ -139,14 +142,14 @@ public class ClassDetailActivity extends BaseActivity {
             }
         };
         mainLv.setAdapter(adapter);
-        mainSrl.setOnRefreshListener(() -> refresh());
-        mainSrl.setRefreshing(true);
-        refresh();
+        mainSrl.setOnRefreshListener(() -> refresh());//下拉刷新数据
+        mainSrl.setRefreshing(true);//初始化加载刷新动画
+        refresh();//初始化页面数据
         mainLv.setOnItemClickListener((adapterView, view, i, l) -> {
             Utils.IntentPost(QuestionActivity.class, intent -> intent.putExtra("id", list.get(i)));
-        });
-        toolbar.setCenter_str(class_model.getTitle());
-        btn.setOnClickListener(v -> {
+        });//点击列表跳转到问题详情页面
+        toolbar.setCenter_str(class_model.getTitle());//顶部显示当前标签内容
+        btn.setOnClickListener(v -> {//点击查询刷新数据
             refresh();
         });
     }
@@ -154,10 +157,13 @@ public class ClassDetailActivity extends BaseActivity {
     List<Question> list = new ArrayList<>();
     CommonAdapter<Question> adapter;
 
+    /**
+     * 刷新操作
+     */
     void refresh() {
         String word = search_word_et.getText().toString().trim();
         mainSrl.setRefreshing(false);
-        if (!TextUtils.isEmpty(word)) {
+        if (!TextUtils.isEmpty(word)) {//如果当前输入查询内容不为空，查询出指定的数据并显示
             List<Question> m = new ArrayList<>();
             for (Question model : list) {
                 if (model.getTitle().contains(word)) {
@@ -167,7 +173,7 @@ public class ClassDetailActivity extends BaseActivity {
             list = m;
             adapter.refresh(m);
             titleNumTv.setText("当前共：" + m.size() + "个问题");
-        } else {
+        } else {//查询出当前课程下面的所有问题，并显示出来
             BmobQuery<Question> query = new BmobQuery<>();
             query.addWhereEqualTo("clas", class_model);
             query.order("-createdAt");
@@ -193,7 +199,7 @@ public class ClassDetailActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
-            case 66:
+            case 66://问题添加成功回调，执行刷新数据操作
                 refresh();
                 break;
         }

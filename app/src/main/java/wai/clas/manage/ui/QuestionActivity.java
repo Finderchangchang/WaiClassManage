@@ -73,7 +73,6 @@ public class QuestionActivity extends BaseActivity {
 
     @Override
     public void initEvents() {
-
         adapter = new CommonAdapter<AskModel>(this, list, R.layout.item_ask) {
             @Override
             public void convert(CommonViewHolder holder, AskModel askModel, int position) {
@@ -83,16 +82,16 @@ public class QuestionActivity extends BaseActivity {
             }
         };
         askLv.setAdapter(adapter);
-        main_srl.setOnRefreshListener(() -> {
-            refresh();
-            main_srl.setRefreshing(false);
+        main_srl.setOnRefreshListener(() -> {//下拉刷新操作
+            refresh();//刷新页面数据
+            main_srl.setRefreshing(false);//关闭刷新动画
         });
-        userNameTv.setText(model.getTitle());
-        orderTimeTv.setText(model.getContent());
+        userNameTv.setText(model.getTitle());//设置用户标题
+        orderTimeTv.setText(model.getContent());//显示订单时间
         toolbar.setLeftClick(() -> finish());
         if (TextUtils.isEmpty(model.getImg1())) {
             iv_ll.setVisibility(View.GONE);
-        } else {
+        } else {//图片显示
             Glide.with(this)
                     .load(model.getImg1())
                     .error(R.mipmap.no_img)
@@ -123,10 +122,10 @@ public class QuestionActivity extends BaseActivity {
                     user.setObjectId(Utils.getCache(key.KEY_class_user_id));
                     askModel.setQ_user(user);
                     askModel.setQuestion(model);
-                    askModel.save(new SaveListener<String>() {
+                    askModel.save(new SaveListener<String>() {//保存提问信息
                         @Override
                         public void done(String s, BmobException e) {
-                            if (e == null) {
+                            if (e == null) {//保存成功刷新数据
                                 main_srl.setRefreshing(true);
                                 refresh();
                                 askEt.setText("");

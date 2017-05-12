@@ -20,6 +20,9 @@ import wai.clas.manage.R;
 import wai.clas.manage.method.Utils;
 import wai.clas.manage.model.key;
 
+/**
+ * 登录
+ */
 public class LoginActivity extends BaseActivity {
     @Bind(R.id.user_name_et)
     EditText userNameEt;
@@ -37,7 +40,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        regBtn.setOnClickListener(v -> startActivityForResult(new Intent(LoginActivity.this, RegActivity.class), 0));
+        regBtn.setOnClickListener(v -> startActivityForResult(new Intent(LoginActivity.this, RegActivity.class), 0));//跳转到注册用户页面
         loginBtn.setOnClickListener(v -> {
             String name = userNameEt.getText().toString().trim();
             String pwd = pwdEt.getText().toString().trim();
@@ -45,12 +48,14 @@ public class LoginActivity extends BaseActivity {
                 ToastShort("用户名不能为空");
             } else if (TextUtils.isEmpty(pwd)) {
                 ToastShort("密码不能为空");
-            } else {
+            } else {//登录操作
                 BmobUser.loginByAccount(name, pwd, new LogInListener<BmobUser>() {
                     @Override
                     public void done(BmobUser o, BmobException e) {
                         if (e == null) {//登录成功
+                            MainActivity.admin.finish();
                             finish();
+                            Utils.IntentPost(MainActivity.class);
                             Map<String, String> map = new HashMap<String, String>();
                             map.put(key.KEY_class_user_id, o.getObjectId());
                             map.put(key.KEY_class_tel, name);
@@ -67,7 +72,7 @@ public class LoginActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
-            case 77:
+            case 77://获得注册的用户名以及密码，并自动填充到登录输入框中
                 userNameEt.setText(data.getStringExtra("name"));
                 pwdEt.setText(data.getStringExtra("pwd"));
                 break;
