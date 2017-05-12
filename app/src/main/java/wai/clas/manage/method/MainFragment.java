@@ -2,6 +2,7 @@ package wai.clas.manage.method;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +89,7 @@ public class MainFragment extends Fragment {
                 view = inflater.inflate(R.layout.activity_sc_manage, container, false);
                 go_login_tv = (TextView) view.findViewById(R.id.go_login_tv);
                 sc_lv = (ListView) view.findViewById(R.id.sc_lv);
+                sc_srl = (SwipeRefreshLayout) view.findViewById(R.id.sc_srl);
                 if (TextUtils.isEmpty(user_id)) {//当前未登录显示的内容
                     go_login_tv.setVisibility(View.VISIBLE);
                     go_login_tv.setOnClickListener(view1 -> Utils.IntentPost(LoginActivity.class));//点击跳转到登录
@@ -116,20 +118,10 @@ public class MainFragment extends Fragment {
                         }
                     };
                     sc_lv.setAdapter(pj_adapter);
-                    BmobQuery<SCModel> bmobQuery = new BmobQuery<>();
-                    UserModel model = new UserModel();//查询出当前登录账号，所收藏的所有课程
-                    model.setObjectId(Utils.getCache(key.KEY_class_user_id));
-                    bmobQuery.include("subj");//关联课程表
-                    bmobQuery.order("-createdAt");//创建时间倒序查询
-                    bmobQuery.addWhereEqualTo("user", model);//查询当前账户
-                    bmobQuery.findObjects(new FindListener<SCModel>() {
-                        @Override
-                        public void done(List<SCModel> list, BmobException e) {
-                            if (e == null) {
-                                orderModels = list;
-                                pj_adapter.refresh(orderModels);//刷新当前页面显示数据
-                            }
-                        }
+                    refresh();
+                    sc_srl.setOnRefreshListener(() -> {
+                        refresh();
+                        sc_srl.setRefreshing(false);
                     });
                     sc_lv.setOnItemClickListener((adapterView, v, i, l) -> {//收藏标签点击事件
                         Utils.IntentPost(ClassDetailActivity.class, intent -> intent.putExtra("class", orderModels.get(i).getSubj()));
@@ -210,6 +202,24 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    void refresh() {
+        BmobQuery<SCModel> bmobQuery = new BmobQuery<>();
+        UserModel model = new UserModel();//查询出当前登录账号，所收藏的所有课程
+        model.setObjectId(Utils.getCache(key.KEY_class_user_id));
+        bmobQuery.include("subj");//关联课程表
+        bmobQuery.order("-createdAt");//创建时间倒序查询
+        bmobQuery.addWhereEqualTo("user", model);//查询当前账户
+        bmobQuery.findObjects(new FindListener<SCModel>() {
+            @Override
+            public void done(List<SCModel> list, BmobException e) {
+                if (e == null) {
+                    orderModels = list;
+                    pj_adapter.refresh(orderModels);//刷新当前页面显示数据
+                }
+            }
+        });
+    }
+
     List<SCModel> orderModels;
     CommonAdapter<SCModel> pj_adapter;
     UserModel userModel = new UserModel();
@@ -220,4 +230,5 @@ public class MainFragment extends Fragment {
     Button change_name_btn;
     TextView name_tv;
     TextView exit_btn;
+    SwipeRefreshLayout sc_srl;
 }
