@@ -80,7 +80,7 @@ public class AskManageActivity extends BaseActivity {
             }
         });
         mainLv.setOnItemClickListener((adapterView, view, i, l) -> {//点击问题，跳转到问题详情
-            Utils.IntentPost(QuestionActivity.class, intent -> intent.putExtra("id", orderModels.get(i)));
+            Utils.IntentPost(QuestionActivity.class, intent -> intent.putExtra("id", orderModels.get(i).getQuestion()));
         });
     }
 

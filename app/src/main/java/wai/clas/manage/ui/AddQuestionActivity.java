@@ -28,6 +28,8 @@ import wai.clas.manage.R;
 import wai.clas.manage.method.Utils;
 import wai.clas.manage.model.Question;
 import wai.clas.manage.model.TotalClass;
+import wai.clas.manage.model.UserModel;
+import wai.clas.manage.model.key;
 
 /**
  * 添加提问信息
@@ -71,6 +73,9 @@ public class AddQuestionActivity extends BaseActivity {
                 question.setImg1(map.get(0));
                 question.setImg2(map.get(1));
                 question.setClas(model);
+                UserModel userModel = new UserModel();
+                userModel.setObjectId(Utils.getCache(key.KEY_class_user_id));
+                question.setUser(userModel);
                 question.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
