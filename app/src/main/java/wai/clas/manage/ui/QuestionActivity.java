@@ -112,15 +112,15 @@ public class QuestionActivity extends BaseActivity {
                 String val = askEt.getText().toString().trim();
                 if (TextUtils.isEmpty(val)) {
                     ToastShort("请说些什么吧~");
-                } else {
+                } else {//发表评论
                     AskModel askModel = new AskModel();
                     askModel.setContent(val);
                     UserModel user = new UserModel();
-                    user.setObjectId(user_id);
-                    askModel.setUser(user);
+                    user.setObjectId(model.getUser().getObjectId());
+                    askModel.setQ_user(user);//提出问题的人
                     user = new UserModel();
                     user.setObjectId(Utils.getCache(key.KEY_class_user_id));
-                    askModel.setQ_user(user);
+                    askModel.setUser(user);//回答问题的人
                     askModel.setQuestion(model);
                     askModel.save(new SaveListener<String>() {//保存提问信息
                         @Override

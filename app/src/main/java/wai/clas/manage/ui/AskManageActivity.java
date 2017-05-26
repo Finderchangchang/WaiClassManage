@@ -53,7 +53,7 @@ public class AskManageActivity extends BaseActivity {
                 } else {
                     holder.setGliImage(R.id.user_iv, question.getQuestion().getImg2());
                 }
-                holder.setText(R.id.title_tv, question.getContent() + "  回复了您");
+                holder.setText(R.id.title_tv, question.getUser().getName() + "  回复了您");
                 if (!TextUtils.isEmpty(question.getContent())) {
                     if (question.getContent().length() > 70) {
                         holder.setText(R.id.content_tv, question.getContent().substring(0, 70) + "...");

@@ -168,6 +168,8 @@ public class ClassDetailActivity extends BaseActivity {
             for (Question model : list) {
                 if (model.getTitle().contains(word)) {
                     m.add(model);
+                } else if (model.getContent().contains(word)) {
+                    m.add(model);
                 }
             }
             list = m;

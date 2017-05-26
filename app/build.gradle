@@ -40,4 +40,5 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.android.support:design:24.2.1'
     compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

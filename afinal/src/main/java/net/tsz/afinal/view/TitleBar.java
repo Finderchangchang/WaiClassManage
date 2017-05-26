@@ -149,6 +149,8 @@ public class TitleBar extends LinearLayout {
         init(context);
     }
 
+
+
     public interface LeftClick {
         void onClick();
     }
